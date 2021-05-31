@@ -2,14 +2,16 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+// allowed operators for expression
 const operators = ['+', '-', '*', '/'];
 
 class App extends React.Component {
 
+  // state variable
   state={
-    data: [],
-    result: 0,
-    equation: null,
+    data: [],       // variable to store csv values
+    result: 0,      // variable to store result value
+    equation: null, // variable to store the expression
   }
 
   render() {
@@ -33,12 +35,14 @@ class App extends React.Component {
     );
   }
 
+  // this function will be invoked whenever user changes the value in result box
   handleResult = (e) => {
     this.setState({
       result: Number(e.target.value)
     })
   }
 
+  // this function will be invoked whenever user uploads a csv file
   handleFile = (e) => {
     const content = e.target.result;
     // console.log('file content',  content);
@@ -47,13 +51,15 @@ class App extends React.Component {
     });
     // this.findTheExpression();
   }
-  
+
+  // this function is used to read the file as text
   readFile = (file) => {
     let reader = new FileReader();
     reader.onloadend = this.handleFile;
     reader.readAsText(file);
   }
 
+  // function to check the data variable and start building the expression
   findTheExpression = () => {
     if (this.state.data.length > 0) {
       let numbers = this.state.data.map(num => [Number(num), String(num)]);
@@ -63,6 +69,7 @@ class App extends React.Component {
     }
   }
 
+  // function to make all possible postfix expressions using stack
   postfix = (nums, stack) => {
     if (stack.length >= 2) {
       let val2 = stack.pop();
@@ -102,6 +109,7 @@ class App extends React.Component {
     }
   }
 
+  // function to return the result of two numbers depending on the type of operator
   operations = (operator, num1, num2) => {
     switch (operator) {
       case '+':
